@@ -1,0 +1,21 @@
+{
+  "rahmenbedingungen": {
+    "fachschaft_name": "Informatik",
+    "fachschaft_nummer": "11a",
+    "fachschaft_raum": "LF113",
+    "fachschaft_tel_nr": "022061234",
+    "wahltag_start": "2025-08-01",
+    "fsr_plaetze": 15,
+    "raum": "LE313",
+    "wahl_start": "12:00",
+    "wahl_ende": "14:00",
+    "wahlausschuss_mail": "fsk@asta-due.org",
+    "wahlausschuss_namen": [
+      "Jonathan Dreisvogt",
+      "Tizian Walter",
+      "Katharina Wipperfürth"
+    ],
+    "briefkasten": "LF258",
+    "fvv_uhrzeit": "11:00:00"
+  }
+}
