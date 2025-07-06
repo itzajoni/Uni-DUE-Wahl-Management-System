@@ -1,3 +1,3 @@
-from intern.helpers.datenManagement import WahlManager
+from helpers.datenManagement import WahlManager
 
 data = WahlManager()

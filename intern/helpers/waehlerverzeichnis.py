@@ -8,7 +8,7 @@ _REQUIRED_COLUMNS = [
 
 _ADDITIONAL_COLUMNS = ["kandidatur", "unterstuetzer", "gewählt", "stimmen", "mail"]
 
-def _load_excel(path="../Wählerverzeichnis"):
+def _load_excel(path="../Waehlerverzeichnis"):
     for file in os.walk(path): #datei finden
         if str(file).endswith(".xlsx"):
             path = file
@@ -22,7 +22,7 @@ def _load_excel(path="../Wählerverzeichnis"):
     # Prüfe Pflichtspalten
     for col in _REQUIRED_COLUMNS:
         if col not in df.columns:
-            print(f"Fehler: Spalte '{col}' fehlt im Wählerverzeichnis.")
+            print(f"Fehler: Spalte '{col}' fehlt im Waehlerverzeichnis.")
             sys.exit(1)
 
     # Zusätzliche Spalten anlegen, falls nicht vorhanden

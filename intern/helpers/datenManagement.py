@@ -1,6 +1,11 @@
+import sys
+
 import pandas as pd
 from pathlib import Path
 from datetime import datetime, timedelta
+
+from intern.helpers.person import Person
+
 
 class WahlManager:
     def __init__(self):
@@ -13,22 +18,24 @@ class WahlManager:
                 "kandidatur", "unterstützer", "gewählt", "stimmen"]),
             "Wahlausschuss": pd.DataFrame(columns=["Name"])
         }
-        if not self.path.exists(): self.erstelle_excel();
+        if not self.path.exists():
+            self.erstelle_excel()
 
     def findeLogo(self):
         for datei in Path("../FSR Logo").iterdir():
             if datei.suffix.lower() in {".png", ".jpg", ".jpeg"} and datei.is_file():
                 return datei
+        print("FSR Logo nicht gefunden", file=sys.stderr)
         return None
 
     def __findeWaehlerverzeichnis(self):
         for datei in Path("../Waehlerverzeichnis").iterdir():
             if datei.suffix.lower() in {".xlsx"} and datei.is_file():
                 return datei
-        return None
+        raise Exception("Waehlerverzeichnis nicht gefunden")
 
     def erstelle_excel(self):
-        # Wählerverzeichnis laden
+        # Waehlerverzeichnis laden
         waehler_df = pd.read_excel(self.__findeWaehlerverzeichnis())
 
         # Felder ergänzen, falls nicht vorhanden
@@ -72,18 +79,6 @@ class WahlManager:
             for name, df in self.tables.items():
                 df.to_excel(writer, sheet_name=name, index=False)
 
-    def kreuz_setzen(self, mtknr, spalte):
-        kandidaten = self.tables["Kandidaten"]
-        idx = kandidaten[kandidaten["Mtknr"] == mtknr].index
-        if not idx.empty:
-            kandidaten.at[idx[0], spalte] = "x"
-
-    def setze_stimmen(self, mtknr, anzahl):
-        kandidaten = self.tables["Kandidaten"]
-        idx = kandidaten[kandidaten["Mtknr"] == mtknr].index
-        if not idx.empty:
-            kandidaten.at[idx[0], "stimmen"] = anzahl
-
     def get_statistik(self):
         kandidaten = self.tables["Kandidaten"]
         gesamt = len(kandidaten)
@@ -108,3 +103,6 @@ class WahlManager:
             termine.loc[idx[0]] = [tag, datum, start, ende, raum]
         else:
             termine.loc[len(termine)] = [tag, datum, start, ende, raum]
+
+    def get_person(self, mtknr: int):
+        return Person(mtknr, self.path)
